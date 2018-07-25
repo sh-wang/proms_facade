@@ -17,10 +17,10 @@ public class RetriveData {
     public void ConvertResponse(){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-        JSONObject object = new JSONObject(response.getBody());
+//        JSONObject object = new JSONObject(response.getBody());
 
-        System.out.println(object.toString());
-        String answer = patientConversion.conversionSingle(object);
+        System.out.println(response.getBody());
+        String answer = patientConversion.conversionSingle(response.getBody());
 
         System.out.println(answer);
     }
