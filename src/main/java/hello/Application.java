@@ -1,5 +1,6 @@
 package hello;
 
+import org.json.JSONArray;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -17,6 +18,8 @@ public class Application {
 
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
+		RetriveData ass = new RetriveData("http://localhost:8080/api/patients");
+		ass.printResponse();
 	}
 	
 	@Bean
