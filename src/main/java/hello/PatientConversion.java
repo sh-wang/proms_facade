@@ -8,6 +8,7 @@ import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -47,7 +48,11 @@ public class PatientConversion {
 
         // add dob
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-//        patient.setBirthDate(format.parse(jsonObject.get("birthDate").toString()));
+        try {
+            patient.setBirthDate(format.parse(jsonObject.get("birthDate").toString()));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         //add gender
         if (jsonObject.get("gender").equals("MALE")) {
