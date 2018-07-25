@@ -31,7 +31,7 @@ public class Application {
 //					"http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
 //			log.info(quote.toString());
 			String fooResourceUrl
-					= "http://localhost:8080/api/fhir/Patient";
+					= "http://localhost:8080/api/patients";
 			ResponseEntity<String> response
 					= restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
 			System.out.println(response);
