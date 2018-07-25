@@ -18,8 +18,8 @@ public class Application {
 
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
-		RetriveData ass = new RetriveData("http://localhost:8080/api/patients");
-		ass.printResponse();
+		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
+		temp.ConvertResponse();
 	}
 	
 	@Bean
@@ -27,17 +27,17 @@ public class Application {
 		return builder.build();
 	}
 
-	@Bean
-	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
-		return args -> {
-//			Quote quote = restTemplate.getForObject(
-//					"http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
-//			log.info(quote.toString());
-			String fooResourceUrl
-					= "http://localhost:8080/api/patients";
-			ResponseEntity<String> response
-					= restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
-			System.out.println(response);
-		};
-	}
+//	@Bean
+//	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
+//		return args -> {
+////			Quote quote = restTemplate.getForObject(
+////					"http://gturnquist-quoters.cfapps.io/api/random", Quote.class);
+////			log.info(quote.toString());
+//			String fooResourceUrl
+//					= "http://localhost:8080/api/patients";
+//			ResponseEntity<String> response
+//					= restTemplate.getForEntity(fooResourceUrl + "/1", String.class);
+//			System.out.println(response);
+//		};
+//	}
 }
