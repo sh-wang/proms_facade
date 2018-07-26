@@ -2,6 +2,7 @@
 # Project Specific
 ######################
 /target/**
+*.class
 /src/test/javascript/coverage/
 /src/test/javascript/PhantomJS*/
 
