@@ -2,19 +2,16 @@ package hello;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
-import org.hl7.fhir.dstu3.model.Enumerations;
+import org.hl7.fhir.dstu3.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
-import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
-import org.hl7.fhir.dstu3.model.Procedure;
-import org.hl7.fhir.dstu3.model.Questionnaire;
 
 import java.text.ParseException;
 import java.util.Date;
 import java.util.Set;
+import hello.util.ActionStatus;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -30,11 +27,6 @@ public class QuestionnaireResponseConversion {
 
     private FhirContext ctx = FhirContext.forDstu3();
     private IParser p =ctx.newJsonParser().setPrettyPrint(true);
-
-
-    public enum ActionStatus {
-        UNINITIALISED, STARTED, PENDING, COMPLETED,  UNKNOWN
-    }
 
 
     public String conversionSingle(String rawData){
