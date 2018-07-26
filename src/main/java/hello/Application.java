@@ -21,28 +21,28 @@ public class Application {
 
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
-		while(true){
-			Scanner scanner = new Scanner(System.in);
-			System.out.println("Enter URL: ");
-			String inputUrl = scanner.next();
-			if (inputUrl.equalsIgnoreCase("quit")){
-				break;
-			}else{
-				RetriveData temp = new RetriveData(inputUrl);
-				temp.ConvertResponse();
-			}
-		}
-//		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
-//		temp.ConvertResponse();
+//		while(true){
+//			Scanner scanner = new Scanner(System.in);
+//			System.out.println("Enter URL: ");
+//			String inputUrl = scanner.next();
+//			if (inputUrl.equalsIgnoreCase("quit")){
+//				break;
+//			}else{
+//				RetriveData temp = new RetriveData(inputUrl);
+//				temp.ConvertResponse();
+//			}
+//		}
+		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
+		temp.ConvertResponse("Patient");
 //
 // 		RetriveData temp = new RetriveData("http://localhost:8080/api/procedures/2");
-//		temp.ConvertResponse();
+//		temp.ConvertResponse("procedure");
 
 //		RetriveData temp = new RetriveData("http://localhost:8080/api/questionnaires/2");
-//		temp.ConvertResponse();
+//		temp.ConvertResponse("Questionnaire");
 
-        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/1");
-        temp.ConvertResponse();
+//        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/1");
+//        temp.ConvertResponse("QuestionnaireResponse");
 	}
 	
 	@Bean

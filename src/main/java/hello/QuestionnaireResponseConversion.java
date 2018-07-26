@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class QuestionnaireResponseConversion {
+    private PatientConversion patientConversion = new PatientConversion();
+
     public QuestionnaireResponseConversion(){}
 
     public enum ActionStatus {
@@ -65,15 +67,23 @@ public class QuestionnaireResponseConversion {
             questionnaireResponse.setStatus(QuestionnaireResponse.QuestionnaireResponseStatus.INPROGRESS);
         }
 
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+        //add patient
+        JSONObject jsonPatient = new JSONObject(jsonObject.get("patient").toString());
+        Patient patient = patientConversion.patientConversion(jsonPatient);
+        System.out.println("patient:"+patient);
 
-        Patient patient = patientFhirResource.getPatientResource(
-                followupAction.getPatient().getId());
-        org.hl7.fhir.dstu3.model.Reference refePa = new org.hl7.fhir.dstu3.model.Reference(patientFHIR);
-        questionnaireResponse.setSubject(refePa);
+//        org.hl7.fhir.dstu3.model.Reference refePa = new org.hl7.fhir.dstu3.model.Reference(patient);
+//        questionnaireResponse.setSubject(refePa);
 //
-//        Procedure procedureFHIR = procedureFhirResource.getProcedureResource(followupAction.getCareEvent()
+//        //add procedure
+//        JSONObject jsonCareEvent = new JSONObject(jsonObject.get("careEvent").toString());
+//        JSONObject jsonFollowupPlan = new JSONObject(jsonCareEvent.get("followupPlan").toString());
+//        JSONObject jsonProcedureBooking = new JSONObject(jsonFollowupPlan.get("procedureBooking").toString());
+//        RestTemplate restTemplate = new RestTemplate();
+//        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/api/procedures/"+jsonProcedureBooking.get("id"), String.class);
+//        JSONObject jsonProcedure = new JSONObject(response.getBody());
+//        System.out.println(jsonProcedure);
+//        Procedure procedure = procedureFhirResource.getProcedureResource(followupAction.getCareEvent()
 //                .getFollowupPlan().getProcedureBooking().getId());
 //        org.hl7.fhir.dstu3.model.Reference refePr = new org.hl7.fhir.dstu3.model.Reference(procedureFHIR);
 //        questionnaireResponse.addParent(refePr);

@@ -19,21 +19,32 @@ public class RetriveData {
         this.url=url;
     }
 
-    public void ConvertResponse(){
+    public void ConvertResponse(String type){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 //        JSONObject object = new JSONObject(response.getBody());
 
 //        System.out.println(response.getBody());
-//        String answer = patientConversion.conversionSingle(response.getBody());
-//        String answer = patientConversion.conversionSingle(response.getBody());
-//        String answer = procedureConversion.conversionSingle(response.getBody());
-//        String answer = questionnaireConversion.conversionSingle(response.getBody());
-        String answer = questionnaireResponseConversion.conversionSingle(response.getBody());
+        String answer;
+        switch(type){
+            case "Patient":
+                answer = patientConversion.conversionSingle(response.getBody());
+                break;
+            case "Procedure":
+                answer = procedureConversion.conversionSingle(response.getBody());
+                break;
+            case "Questionnaire":
+                answer = questionnaireConversion.conversionSingle(response.getBody());
+                break;
+            case "QuestionnaireResponse":
+                answer = questionnaireResponseConversion.conversionSingle(response.getBody());
+                break;
+            default:
 
+                break;
+        }
 
         System.out.println(response.getBody());
-        System.out.println(answer);
     }
 
     public String getUrl() {

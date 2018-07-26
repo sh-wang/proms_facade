@@ -49,7 +49,7 @@ public class PatientConversion {
         return patientArray.toString();
     }
 
-    private Patient patientConversion(JSONObject jsonObject){
+    public Patient patientConversion(JSONObject jsonObject){
         Patient patient = new Patient();
         patient.setId(jsonObject.get("id").toString().replaceAll(".0+?$", ""));
 
