@@ -1,12 +1,18 @@
 package hello;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import com.google.gson.JsonObject;
+import org.hl7.fhir.dstu3.model.ContactPoint;
 import org.hl7.fhir.dstu3.model.Enumerations;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.RestTemplate;
 
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -17,12 +23,16 @@ public class PatientConversion {
 
     public PatientConversion(){ }
 
+    private FhirContext ctx = FhirContext.forDstu3();
+    private IParser p =ctx.newJsonParser().setPrettyPrint(true);
+
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
 
         Patient patient = patientConversion(jsonObject);
+        String encode = p.encodeResourceToString(patient);
 
-        return patient.toString();
+        return encode;
     }
 
     public String conversionArray(String rawData) {
@@ -71,6 +81,34 @@ public class PatientConversion {
         } else {
             patient.addIdentifier().setSystem("nhsNumber").setValue(jsonObject.get("nhsNumber").toString());
         }
+
+        // add Email
+        if (jsonObject.get("email") == null) {
+            patient.addTelecom().setSystem(ContactPoint.ContactPointSystem.EMAIL).setValue("null");
+        }else{
+            patient.addTelecom().setSystem(ContactPoint.ContactPointSystem.EMAIL).setValue(jsonObject.get("email").toString());
+        }
+
+        // add address
+        RestTemplate restTemplate = new RestTemplate();
+        String addressUrl = "http://localhost:8080/api/addresses/" + jsonObject.get("id").toString();
+
+        ResponseEntity<String> response = restTemplate.getForEntity(addressUrl, String.class);
+        JSONObject addressJson = new JSONObject(response.getBody());
+//        System.out.println(addressJson);
+
+        if (addressJson!=null) {
+            org.hl7.fhir.dstu3.model.Address addressFHIR = new org.hl7.fhir.dstu3.model.Address();
+            addressFHIR.setPostalCode(addressJson.get("postalCode").toString());
+            addressFHIR.setCity(addressJson.get("city").toString());
+            addressFHIR.setCountry(addressJson.get("country").toString());
+            addressFHIR.addLine(addressJson.get("lines").toString());
+
+            patient.addAddress(addressFHIR);
+        }
+
+
+
 
         return  patient;
     }

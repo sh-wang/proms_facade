@@ -5,6 +5,8 @@ import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URL;
+
 public class RetriveData {
     private String url;
 
@@ -22,6 +24,8 @@ public class RetriveData {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 //        JSONObject object = new JSONObject(response.getBody());
 
+//        System.out.println(response.getBody());
+//        String answer = patientConversion.conversionSingle(response.getBody());
 //        String answer = patientConversion.conversionSingle(response.getBody());
 //        String answer = procedureConversion.conversionSingle(response.getBody());
 //        String answer = questionnaireConversion.conversionSingle(response.getBody());
