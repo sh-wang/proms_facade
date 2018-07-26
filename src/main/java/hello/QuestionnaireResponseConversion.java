@@ -7,15 +7,23 @@ import org.hl7.fhir.dstu3.model.QuestionnaireResponse;
 import org.hl7.fhir.dstu3.model.Patient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import org.hl7.fhir.dstu3.model.Procedure;
+import org.hl7.fhir.dstu3.model.Questionnaire;
 
 import java.text.ParseException;
+import java.util.Date;
+import java.util.Set;
+
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Iterator;
 
 public class QuestionnaireResponseConversion {
     private PatientConversion patientConversion = new PatientConversion();
-
+    private ProcedureConversion procedureConversion = new ProcedureConversion();
+    private QuestionnaireConversion questionnaireConversion= new QuestionnaireConversion();
     public QuestionnaireResponseConversion(){}
 
     public enum ActionStatus {
@@ -69,60 +77,70 @@ public class QuestionnaireResponseConversion {
 
         //add patient
         JSONObject jsonPatient = new JSONObject(jsonObject.get("patient").toString());
-        Patient patient = patientConversion.patientConversion(jsonPatient);
-        System.out.println("patient:"+patient);
+        Patient patient = patientConversion.patientConversion(jsonPatient,"Questionnaire response");
 
-//        org.hl7.fhir.dstu3.model.Reference refePa = new org.hl7.fhir.dstu3.model.Reference(patient);
-//        questionnaireResponse.setSubject(refePa);
-//
-//        //add procedure
-//        JSONObject jsonCareEvent = new JSONObject(jsonObject.get("careEvent").toString());
-//        JSONObject jsonFollowupPlan = new JSONObject(jsonCareEvent.get("followupPlan").toString());
-//        JSONObject jsonProcedureBooking = new JSONObject(jsonFollowupPlan.get("procedureBooking").toString());
-//        RestTemplate restTemplate = new RestTemplate();
-//        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/api/procedures/"+jsonProcedureBooking.get("id"), String.class);
-//        JSONObject jsonProcedure = new JSONObject(response.getBody());
-//        System.out.println(jsonProcedure);
-//        Procedure procedure = procedureFhirResource.getProcedureResource(followupAction.getCareEvent()
-//                .getFollowupPlan().getProcedureBooking().getId());
-//        org.hl7.fhir.dstu3.model.Reference refePr = new org.hl7.fhir.dstu3.model.Reference(procedureFHIR);
-//        questionnaireResponse.addParent(refePr);
-//
-//        //add completed date
-//        try{
-//            questionnaireResponse.setAuthored(Date.from(followupAction.getCompletedDate().
-//                    atStartOfDay(ZoneId.systemDefault()).toInstant()));
-//        }catch (Exception e){ }
-//
-//        // add patient's questionnaire need to accomplish, in the format of fhir standard, json format.
-//        org.hl7.fhir.dstu3.model.Questionnaire questionnaireFHIR = questionnaireFhirResource
-//                .getQuestionnaireResource(followupAction.getQuestionnaire().getId());
-//        org.hl7.fhir.dstu3.model.Reference refeQu = new org.hl7.fhir.dstu3.model.Reference(questionnaireFHIR);
-//        questionnaireResponse.setQuestionnaire(refeQu);
-//
-//        // display each question and its corresponding answer for the questionnaire.
-//        if(!followupAction.getResponseItems().isEmpty()){
-//            Set<ResponseItem> responseItems = followupAction.getResponseItems();
-//
-//            Iterator it1 = responseItems.iterator();
-//            while(it1.hasNext()){
-//                ResponseItem responseItem = (ResponseItem) it1.next();
-//                org.hl7.fhir.dstu3.model.IntegerType i = new org.hl7.fhir.dstu3.model.IntegerType();
-////                org.hl7.fhir.dstu3.model.StringType s = new org.hl7.fhir.dstu3.model.StringType();
-////                s.setValue(followupAction.getOutcomeComment());
-//                i.setValue(responseItem.getValue());
-//                questionnaireResponse.addItem().setLinkId(responseItem.getId().
-//                        toString()).setText(responseItem.getLocalId()).addAnswer().setValue(i);
-//            }
-//            // outcome comment
-//            org.hl7.fhir.dstu3.model.StringType s = new org.hl7.fhir.dstu3.model.StringType();
-//            s.setValue(followupAction.getOutcomeComment());
-//            questionnaireResponse.addItem().addAnswer().setValue(s);
-//        }
-//
-//        String author = followupAction.getCreatedBy();
-//        Reference authorRef = new Reference(author);
-//        questionnaireResponse.setAuthor(authorRef);
+        org.hl7.fhir.dstu3.model.Reference refePa = new org.hl7.fhir.dstu3.model.Reference(patient);
+        questionnaireResponse.setSubject(refePa);
+
+        //add procedure
+        JSONObject jsonCareEvent = new JSONObject(jsonObject.get("careEvent").toString());
+        JSONObject jsonFollowupPlan = new JSONObject(jsonCareEvent.get("followupPlan").toString());
+        JSONObject jsonProcedureBooking = new JSONObject(jsonFollowupPlan.get("procedureBooking").toString());
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/api/procedures/"+jsonProcedureBooking.get("id"), String.class);
+        JSONObject jsonProcedure = new JSONObject(response.getBody());
+        Procedure procedure = procedureConversion.procedureConversion(jsonProcedure);
+        org.hl7.fhir.dstu3.model.Reference refePr = new org.hl7.fhir.dstu3.model.Reference(procedure);
+        questionnaireResponse.addParent(refePr);
+
+        //add completed date
+        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        if(jsonObject.get("completedDate").toString().equals("null")){
+            try {
+                date = format.parse("2020-01-01");
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }else{
+            try {
+                date = format.parse(jsonObject.get("completedDate").toString());
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        questionnaireResponse.setAuthored(date);
+
+
+
+        // add patient's questionnaire need to accomplish, in the format of fhir standard, json format.
+        JSONObject jsonQuestionnaire = new JSONObject(jsonObject.get("questionnaire").toString());
+
+        Questionnaire questionnaire = questionnaireConversion.questionnaireConversion(jsonQuestionnaire);
+
+        org.hl7.fhir.dstu3.model.Reference refeQu = new org.hl7.fhir.dstu3.model.Reference(questionnaire);
+        questionnaireResponse.setQuestionnaire(refeQu);
+
+        // display each question and its corresponding answer for the questionnaire.
+        if(!jsonObject.get("responseItems").toString().equals("null")){
+            JSONArray jsonResponseItems = new JSONArray(jsonObject.get("responseItems").toString());
+           for(int i=0; i<jsonResponseItems.length(); i++){
+               org.hl7.fhir.dstu3.model.IntegerType j = new org.hl7.fhir.dstu3.model.IntegerType();
+               j.setValue((Integer) jsonResponseItems.getJSONObject(i).get("value"));
+               questionnaireResponse.addItem().setLinkId(jsonResponseItems.getJSONObject(i).get("id").
+                       toString()).setText(jsonResponseItems.getJSONObject(i).get("localId").toString()).addAnswer().setValue(j);
+           }
+        }
+
+            // outcome comment
+            org.hl7.fhir.dstu3.model.StringType s = new org.hl7.fhir.dstu3.model.StringType();
+            s.setValue(jsonObject.get("outcomeComment").toString());
+            questionnaireResponse.addItem().addAnswer().setValue(s);
+
+
+            String author = jsonObject.get("createdBy").toString();
+            org.hl7.fhir.dstu3.model.Reference authorRef = new org.hl7.fhir.dstu3.model.Reference(author);
+            questionnaireResponse.setAuthor(authorRef);
 
         return  questionnaireResponse;
     }

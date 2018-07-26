@@ -36,7 +36,7 @@ public class ProcedureConversion {
         return proceduresArray.toString();
     }
 
-    private Procedure procedureConversion(JSONObject jsonObject){
+    public Procedure procedureConversion(JSONObject jsonObject){
         Procedure procedure = new Procedure();
         //add id
         procedure.setId(jsonObject.get("id").toString());

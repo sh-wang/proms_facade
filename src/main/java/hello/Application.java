@@ -17,23 +17,23 @@ import java.util.Scanner;
 @SpringBootApplication
 public class Application {
 
-	private static final Logger log = LoggerFactory.getLogger(Application.class);
+    private static final Logger log = LoggerFactory.getLogger(Application.class);
 
-	public static void main(String args[]) {
-		SpringApplication.run(Application.class);
+    public static void main(String args[]) {
+        SpringApplication.run(Application.class);
 
         RetriveData temp = new RetriveData("");
-		while(true){
-			Scanner scanner = new Scanner(System.in);
-			System.out.println("Enter URL: ");
-			String inputUrl = scanner.next();
-			if (inputUrl.equalsIgnoreCase("quit")){
-				break;
-			}else{
-				temp.setUrl(inputUrl);
-				temp.ConvertResponse();
-			}
-		}
+        while(true){
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Enter URL: ");
+            String inputUrl = scanner.next();
+            if (inputUrl.equalsIgnoreCase("quit")){
+                break;
+            }else{
+                temp.setUrl(inputUrl);
+                temp.ConvertResponse();
+            }
+        }
 //		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
 //		temp.ConvertResponse();
 //
@@ -45,12 +45,12 @@ public class Application {
 
 //        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/1");
 //        temp.ConvertResponse("QuestionnaireResponse");
-	}
-	
-	@Bean
-	public RestTemplate restTemplate(RestTemplateBuilder builder) {
-		return builder.build();
-	}
+    }
+
+    @Bean
+    public RestTemplate restTemplate(RestTemplateBuilder builder) {
+        return builder.build();
+    }
 
 //	@Bean
 //	public CommandLineRunner run(RestTemplate restTemplate) throws Exception {
