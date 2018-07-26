@@ -11,6 +11,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
+import java.net.URL;
 import java.util.Scanner;
 
 @SpringBootApplication
