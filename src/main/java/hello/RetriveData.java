@@ -19,33 +19,19 @@ public class RetriveData {
         this.url=url;
     }
 
-    public void ConvertResponse(String type){
+    public void ConvertResponse(){
+        urlClassifier();
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
 
-        System.out.println(response.getBody());
-//        JSONObject object = new JSONObject(response.getBody());
+    }
 
-//        System.out.println(response.getBody());
-        String answer="";
-        switch(type){
-            case "Patient":
-                answer = patientConversion.conversionSingle(response.getBody());
-                break;
-            case "Procedure":
-                answer = procedureConversion.conversionSingle(response.getBody());
-                break;
-            case "Questionnaire":
-                answer = questionnaireConversion.conversionSingle(response.getBody());
-                break;
-            case "QuestionnaireResponse":
-                answer = questionnaireResponseConversion.conversionSingle(response.getBody());
-                break;
-            default:
+    private String urlClassifier(){
+        String newUrl = url.substring(url.indexOf("api")+4, url.lastIndexOf("/"));
+        System.out.println(newUrl);
+        if (url.contains("patient")){
 
-                break;
         }
-
+        return  "  ";
     }
 
     public String getUrl() {
