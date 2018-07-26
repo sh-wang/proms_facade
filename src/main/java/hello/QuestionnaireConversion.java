@@ -35,7 +35,7 @@ public class QuestionnaireConversion {
         return questionnaireArray.toString();
     }
 
-    private Questionnaire questionnaireConversion(JSONObject jsonObject){
+    public Questionnaire questionnaireConversion(JSONObject jsonObject){
         Questionnaire questionnaire = new Questionnaire();
 
         //add url

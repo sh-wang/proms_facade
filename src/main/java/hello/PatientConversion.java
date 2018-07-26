@@ -29,7 +29,7 @@ public class PatientConversion {
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
 
-        Patient patient = patientConversion(jsonObject);
+        Patient patient = patientConversion(jsonObject,null);
         String encode = p.encodeResourceToString(patient);
 
         return encode;
@@ -42,14 +42,14 @@ public class PatientConversion {
 
         for(int i = 0; i < jsonArray.length(); i++){
             jsonObject = jsonArray.getJSONObject(i);
-            Patient patient = patientConversion(jsonObject);
+            Patient patient = patientConversion(jsonObject, null);
             patientArray.add(patient);
         }
 
         return patientArray.toString();
     }
 
-    public Patient patientConversion(JSONObject jsonObject){
+    public Patient patientConversion(JSONObject jsonObject,String type){
         Patient patient = new Patient();
         patient.setId(jsonObject.get("id").toString().replaceAll(".0+?$", ""));
 
@@ -89,25 +89,25 @@ public class PatientConversion {
             patient.addTelecom().setSystem(ContactPoint.ContactPointSystem.EMAIL).setValue(jsonObject.get("email").toString());
         }
 
-        // add address
-        RestTemplate restTemplate = new RestTemplate();
-        String addressUrl = "http://localhost:8080/api/addresses/" + jsonObject.get("id").toString();
+        if(type==null){
+            // add address
+            RestTemplate restTemplate = new RestTemplate();
+            String addressUrl = "http://localhost:8080/api/addresses/" + jsonObject.get("id").toString();
 
-        ResponseEntity<String> response = restTemplate.getForEntity(addressUrl, String.class);
-        JSONObject addressJson = new JSONObject(response.getBody());
+            ResponseEntity<String> response = restTemplate.getForEntity(addressUrl, String.class);
+            JSONObject addressJson = new JSONObject(response.getBody());
 //        System.out.println(addressJson);
 
-        if (addressJson!=null) {
-            org.hl7.fhir.dstu3.model.Address addressFHIR = new org.hl7.fhir.dstu3.model.Address();
-            addressFHIR.setPostalCode(addressJson.get("postalCode").toString());
-            addressFHIR.setCity(addressJson.get("city").toString());
-            addressFHIR.setCountry(addressJson.get("country").toString());
-            addressFHIR.addLine(addressJson.get("lines").toString());
+            if (addressJson!=null) {
+                org.hl7.fhir.dstu3.model.Address addressFHIR = new org.hl7.fhir.dstu3.model.Address();
+                addressFHIR.setPostalCode(addressJson.get("postalCode").toString());
+                addressFHIR.setCity(addressJson.get("city").toString());
+                addressFHIR.setCountry(addressJson.get("country").toString());
+                addressFHIR.addLine(addressJson.get("lines").toString());
 
-            patient.addAddress(addressFHIR);
+                patient.addAddress(addressFHIR);
+            }
         }
-
-
 
 
         return  patient;

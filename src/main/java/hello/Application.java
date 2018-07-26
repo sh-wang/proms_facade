@@ -32,8 +32,8 @@ public class Application {
 //				temp.ConvertResponse();
 //			}
 //		}
-		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
-		temp.ConvertResponse("Patient");
+//		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
+//		temp.ConvertResponse("Patient");
 //
 // 		RetriveData temp = new RetriveData("http://localhost:8080/api/procedures/2");
 //		temp.ConvertResponse("procedure");
@@ -41,8 +41,8 @@ public class Application {
 //		RetriveData temp = new RetriveData("http://localhost:8080/api/questionnaires/2");
 //		temp.ConvertResponse("Questionnaire");
 
-//        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/1");
-//        temp.ConvertResponse("QuestionnaireResponse");
+        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/19");
+        temp.ConvertResponse("QuestionnaireResponse");
 	}
 	
 	@Bean

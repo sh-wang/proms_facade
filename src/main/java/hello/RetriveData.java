@@ -22,10 +22,12 @@ public class RetriveData {
     public void ConvertResponse(String type){
         RestTemplate restTemplate = new RestTemplate();
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
+
+        System.out.println(response.getBody());
 //        JSONObject object = new JSONObject(response.getBody());
 
 //        System.out.println(response.getBody());
-        String answer;
+        String answer="";
         switch(type){
             case "Patient":
                 answer = patientConversion.conversionSingle(response.getBody());
@@ -44,7 +46,6 @@ public class RetriveData {
                 break;
         }
 
-        System.out.println(response.getBody());
     }
 
     public String getUrl() {
