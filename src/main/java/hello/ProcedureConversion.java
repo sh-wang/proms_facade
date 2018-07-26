@@ -23,17 +23,17 @@ public class ProcedureConversion {
     }
 
     public String conversionArray(String rawData) {
-        List<Procedure> patientArray = new ArrayList<>();
+        List<Procedure> proceduresArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(rawData);
         JSONObject jsonObject;
 
         for(int i = 0; i < jsonArray.length(); i++){
             jsonObject = jsonArray.getJSONObject(i);
             Procedure procedure = procedureConversion(jsonObject);
-            patientArray.add(procedure);
+            proceduresArray.add(procedure);
         }
 
-        return patientArray.toString();
+        return proceduresArray.toString();
     }
 
     private Procedure procedureConversion(JSONObject jsonObject){
