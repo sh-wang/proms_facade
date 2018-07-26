@@ -24,6 +24,8 @@ public class PatientConversion {
     private FhirContext ctx = FhirContext.forDstu3();
     private IParser p =ctx.newJsonParser().setPrettyPrint(true);
 
+    private String defaultPath = "http://localhost:8080/api/";
+
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
 
@@ -91,19 +93,27 @@ public class PatientConversion {
 
         if(type==null){
             // add address
-            RestTemplate restTemplate = new RestTemplate();
-            String addressUrl = "http://localhost:8080/api/addresses/" + jsonObject.get("id").toString();
 
-            ResponseEntity<String> response = restTemplate.getForEntity(addressUrl, String.class);
+            RestTemplate restTemplate = new RestTemplate();
+            String addressUrl = defaultPath + "addresses/" + jsonObject.get("id").toString();
+            ResponseEntity<String> response;
+            try {
+                response = restTemplate.getForEntity(addressUrl, String.class);
+            } catch (Exception e) {
+                return  patient;
+            }
+
             JSONObject addressJson = new JSONObject(response.getBody());
-//        System.out.println(addressJson);
 
             if (addressJson!=null) {
                 org.hl7.fhir.dstu3.model.Address addressFHIR = new org.hl7.fhir.dstu3.model.Address();
                 addressFHIR.setPostalCode(addressJson.get("postalCode").toString());
                 addressFHIR.setCity(addressJson.get("city").toString());
                 addressFHIR.setCountry(addressJson.get("country").toString());
-                addressFHIR.addLine(addressJson.get("lines").toString());
+
+                for (int i = 0; i < addressJson.getJSONArray("lines").length(); i++){
+                    addressFHIR.addLine(addressJson.getJSONArray("lines").get(i).toString());
+                }
 
                 patient.addAddress(addressFHIR);
             }

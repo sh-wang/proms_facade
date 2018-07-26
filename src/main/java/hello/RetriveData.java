@@ -31,17 +31,14 @@ public class RetriveData {
 
         String answer;
         String newUrl = url.substring(url.indexOf("api") + 4);
-        System.out.println(newUrl);
         Boolean isArray;
         if (newUrl.contains("/")){
             isArray = false;
             newUrl = newUrl.substring(0, newUrl.lastIndexOf("/"));
-            System.out.println(newUrl);
         } else {
             isArray = true;
             if (newUrl.contains("?")){
                 newUrl = newUrl.substring(0, newUrl.lastIndexOf("?"));
-                System.out.println(newUrl);
             }
         }
 
