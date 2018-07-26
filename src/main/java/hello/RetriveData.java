@@ -30,14 +30,18 @@ public class RetriveData {
         }
 
         String answer;
-        String newUrl = url.substring(url.indexOf("api") + 4, url.lastIndexOf("/"));
+        String newUrl = url.substring(url.indexOf("api") + 4);
         Boolean isArray;
-        try {
-            Long.valueOf(url.substring(url.lastIndexOf("/")+1));
+        if (newUrl.contains("/")){
             isArray = false;
-        } catch (Exception e) {
+            newUrl = newUrl.substring(0, newUrl.lastIndexOf("/"));
+        } else {
             isArray = true;
+            if (newUrl.contains("?")){
+                newUrl = newUrl.substring(0, newUrl.lastIndexOf("?"));
+            }
         }
+
         if (isArray) {
             switch (newUrl) {
                 case "patients":
@@ -80,9 +84,8 @@ public class RetriveData {
                     answer = "[]";
                     break;
             }
-
-            System.out.println(answer);
         }
+        System.out.println(answer);
     }
 
 //        JSONObject object = new JSONObject(response.getBody());

@@ -18,6 +18,8 @@ public class QuestionnaireConversion {
     private FhirContext ctx = FhirContext.forDstu3();
     private IParser p =ctx.newJsonParser().setPrettyPrint(true);
 
+    private String defaultPath = "http://localhost:8080/api/";
+
 
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
@@ -45,7 +47,7 @@ public class QuestionnaireConversion {
         Questionnaire questionnaire = new Questionnaire();
 
         //add url
-        questionnaire.setUrl("localhost:8080/api/fhir/questionnaires/"+jsonObject.get("id"));
+        questionnaire.setUrl(defaultPath + "questionnaires/"+jsonObject.get("id"));
 
         //add id
         questionnaire.setId(jsonObject.get("id").toString());

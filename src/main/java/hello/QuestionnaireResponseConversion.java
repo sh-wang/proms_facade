@@ -28,6 +28,7 @@ public class QuestionnaireResponseConversion {
     private FhirContext ctx = FhirContext.forDstu3();
     private IParser p =ctx.newJsonParser().setPrettyPrint(true);
 
+    private String defaultPath = "http://localhost:8080/api/";
 
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
@@ -87,7 +88,8 @@ public class QuestionnaireResponseConversion {
         JSONObject jsonFollowupPlan = new JSONObject(jsonCareEvent.get("followupPlan").toString());
         JSONObject jsonProcedureBooking = new JSONObject(jsonFollowupPlan.get("procedureBooking").toString());
         RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate.getForEntity("http://localhost:8080/api/procedures/"+jsonProcedureBooking.get("id"), String.class);
+        ResponseEntity<String> response = restTemplate.getForEntity(defaultPath + "procedures/"
+                +jsonProcedureBooking.get("id"), String.class);
         JSONObject jsonProcedure = new JSONObject(response.getBody());
         Procedure procedure = procedureConversion.procedureConversion(jsonProcedure);
         org.hl7.fhir.dstu3.model.Reference refePr = new org.hl7.fhir.dstu3.model.Reference(procedure);
@@ -128,7 +130,8 @@ public class QuestionnaireResponseConversion {
                org.hl7.fhir.dstu3.model.IntegerType j = new org.hl7.fhir.dstu3.model.IntegerType();
                j.setValue((Integer) jsonResponseItems.getJSONObject(i).get("value"));
                questionnaireResponse.addItem().setLinkId(jsonResponseItems.getJSONObject(i).get("id").
-                       toString()).setText(jsonResponseItems.getJSONObject(i).get("localId").toString()).addAnswer().setValue(j);
+                       toString()).setText(jsonResponseItems.getJSONObject(i).get("localId").
+                       toString()).addAnswer().setValue(j);
            }
         }
 
