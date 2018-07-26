@@ -12,8 +12,6 @@ import org.json.JSONTokener;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -36,17 +34,19 @@ public class PatientConversion {
     }
 
     public String conversionArray(String rawData) {
-        List<Patient> patientArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(rawData);
         JSONObject jsonObject;
+        JSONArray FHIRarray = new JSONArray();
 
         for(int i = 0; i < jsonArray.length(); i++){
             jsonObject = jsonArray.getJSONObject(i);
             Patient patient = patientConversion(jsonObject, null);
-            patientArray.add(patient);
+            String encode= p.encodeResourceToString(patient);
+            JSONObject patientFHIR = new JSONObject(encode);
+            FHIRarray.put(patientFHIR);
         }
 
-        return patientArray.toString();
+        return FHIRarray.toString();
     }
 
     public Patient patientConversion(JSONObject jsonObject,String type){
@@ -108,7 +108,6 @@ public class PatientConversion {
                 patient.addAddress(addressFHIR);
             }
         }
-
 
         return  patient;
     }
