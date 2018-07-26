@@ -11,8 +11,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.Scanner;
-
 @SpringBootApplication
 public class Application {
 
@@ -20,29 +18,10 @@ public class Application {
 
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
-<<<<<<< HEAD
 //		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
 //		temp.ConvertResponse();
 		RetriveData temp = new RetriveData("http://localhost:8080/api/procedures/2");
 		temp.ConvertResponse();
-=======
-
-		Scanner scanner = new Scanner(System.in);
-
-		while(true){
-			System.out.println("Enter URL: ");
-			String url = scanner.next();
-			if (url.equalsIgnoreCase("quit")){
-				break;
-			}
-			else{
-				RetriveData temp =new RetriveData(url);
-				temp.ConvertResponse();
-			}
-		}
-//		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
-//		temp.ConvertResponse();
->>>>>>> 90270e943c356e6227635b01d87a8521e4e64f03
 	}
 	
 	@Bean
