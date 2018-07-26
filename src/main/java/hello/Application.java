@@ -18,7 +18,9 @@ public class Application {
 
 	public static void main(String args[]) {
 		SpringApplication.run(Application.class);
-		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
+//		RetriveData temp = new RetriveData("http://localhost:8080/api/patients/1");
+//		temp.ConvertResponse();
+		RetriveData temp = new RetriveData("http://localhost:8080/api/procedures/2");
 		temp.ConvertResponse();
 	}
 	
