@@ -1,5 +1,7 @@
 package hello;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import org.hl7.fhir.dstu3.model.CodeableConcept;
 import org.hl7.fhir.dstu3.model.Enumerations;
 import org.json.JSONArray;
@@ -14,12 +16,16 @@ import java.util.List;
 public class ProcedureConversion {
     public ProcedureConversion(){ }
 
+    private FhirContext ctx = FhirContext.forDstu3();
+    private IParser p =ctx.newJsonParser().setPrettyPrint(true);
+
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
 
         Procedure procedure = procedureConversion(jsonObject);
+        String encode = p.encodeResourceToString(procedure);
 
-        return procedure.toString();
+        return encode;
     }
 
     public String conversionArray(String rawData) {
