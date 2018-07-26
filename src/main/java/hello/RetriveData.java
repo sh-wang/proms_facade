@@ -25,6 +25,7 @@ public class RetriveData {
         try {
             response = restTemplate.getForEntity(url, String.class);
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("url error, please type the correct url");
             return;
         }

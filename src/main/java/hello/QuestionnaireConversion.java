@@ -30,17 +30,15 @@ public class QuestionnaireConversion {
         return encode;
     }
     public String conversionArray(String rawData) {
-        List<Questionnaire> questionnaireArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(rawData);
-        JSONObject jsonObject;
+        JSONArray FHIRarray = new JSONArray();
 
         for(int i = 0; i < jsonArray.length(); i++){
-            jsonObject = jsonArray.getJSONObject(i);
-            Questionnaire questionnaire = questionnaireConversion(jsonObject);
-            questionnaireArray.add(questionnaire);
+            FHIRarray.put(new JSONObject(p.encodeResourceToString
+                    (questionnaireConversion(jsonArray.getJSONObject(i)))));
         }
 
-        return questionnaireArray.toString();
+        return FHIRarray.toString();
     }
 
     public Questionnaire questionnaireConversion(JSONObject jsonObject){

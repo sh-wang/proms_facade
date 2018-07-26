@@ -29,17 +29,16 @@ public class ProcedureConversion {
     }
 
     public String conversionArray(String rawData) {
-        List<Procedure> proceduresArray = new ArrayList<>();
         JSONArray jsonArray = new JSONArray(rawData);
-        JSONObject jsonObject;
+        JSONArray FHIRarray = new JSONArray();;
+
 
         for(int i = 0; i < jsonArray.length(); i++){
-            jsonObject = jsonArray.getJSONObject(i);
-            Procedure procedure = procedureConversion(jsonObject);
-            proceduresArray.add(procedure);
+            FHIRarray.put(new JSONObject(p.encodeResourceToString
+                    (procedureConversion(jsonArray.getJSONObject(i)))));
         }
 
-        return proceduresArray.toString();
+        return FHIRarray.toString();
     }
 
     public Procedure procedureConversion(JSONObject jsonObject){

@@ -37,15 +37,11 @@ public class PatientConversion {
 
     public String conversionArray(String rawData) {
         JSONArray jsonArray = new JSONArray(rawData);
-        JSONObject jsonObject;
         JSONArray FHIRarray = new JSONArray();
 
         for(int i = 0; i < jsonArray.length(); i++){
-            jsonObject = jsonArray.getJSONObject(i);
-            Patient patient = patientConversion(jsonObject, null);
-            String encode= p.encodeResourceToString(patient);
-            JSONObject patientFHIR = new JSONObject(encode);
-            FHIRarray.put(patientFHIR);
+            FHIRarray.put(new JSONObject(p.encodeResourceToString
+                    (patientConversion(jsonArray.getJSONObject(i), null))));
         }
 
         return FHIRarray.toString();
