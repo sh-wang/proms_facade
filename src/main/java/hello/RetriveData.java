@@ -49,7 +49,7 @@ public class RetriveData {
                 case "questionnaires":
                     answer = questionnaireConversion.conversionArray(response.getBody());
                     break;
-                case "questionnaireResponses":
+                case "followup-actions":
                     answer = questionnaireResponseConversion.conversionArray(response.getBody());
                     break;
                 default:
@@ -67,7 +67,7 @@ public class RetriveData {
                 case "questionnaires":
                     answer = questionnaireConversion.conversionSingle(response.getBody());
                     break;
-                case "questionnaireResponses":
+                case "followup-actions":
                     answer = questionnaireResponseConversion.conversionSingle(response.getBody());
                     break;
                 default:

@@ -1,5 +1,7 @@
 package hello;
 
+import ca.uhn.fhir.context.FhirContext;
+import ca.uhn.fhir.parser.IParser;
 import org.hl7.fhir.dstu3.model.Enumerations;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -26,16 +28,22 @@ public class QuestionnaireResponseConversion {
     private QuestionnaireConversion questionnaireConversion= new QuestionnaireConversion();
     public QuestionnaireResponseConversion(){}
 
+    private FhirContext ctx = FhirContext.forDstu3();
+    private IParser p =ctx.newJsonParser().setPrettyPrint(true);
+
+
     public enum ActionStatus {
         UNINITIALISED, STARTED, PENDING, COMPLETED,  UNKNOWN
     }
+
 
     public String conversionSingle(String rawData){
         JSONObject jsonObject = new JSONObject(rawData);
 
         QuestionnaireResponse questionnaireResponse = questionnaireResponseConversion(jsonObject);
+        String encode = p.encodeResourceToString(questionnaireResponse);
 
-        return questionnaireResponse.toString();
+        return encode;
     }
 
     public String conversionArray(String rawData) {
