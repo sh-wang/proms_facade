@@ -11,6 +11,7 @@ public class RetriveData {
     private PatientConversion patientConversion = new PatientConversion();
     private ProcedureConversion procedureConversion = new ProcedureConversion();
     private QuestionnaireConversion questionnaireConversion = new QuestionnaireConversion();
+    private QuestionnaireResponseConversion questionnaireResponseConversion = new QuestionnaireResponseConversion();
 
     public RetriveData(String url){
         this.url=url;
@@ -23,7 +24,9 @@ public class RetriveData {
 
 //        String answer = patientConversion.conversionSingle(response.getBody());
 //        String answer = procedureConversion.conversionSingle(response.getBody());
-        String answer = questionnaireConversion.conversionSingle(response.getBody());
+//        String answer = questionnaireConversion.conversionSingle(response.getBody());
+        String answer = questionnaireResponseConversion.conversionSingle(response.getBody());
+
 
         System.out.println(response.getBody());
         System.out.println(answer);

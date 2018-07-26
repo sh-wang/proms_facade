@@ -24,8 +24,11 @@ public class Application {
 // 		RetriveData temp = new RetriveData("http://localhost:8080/api/procedures/2");
 //		temp.ConvertResponse();
 
-		RetriveData temp = new RetriveData("http://localhost:8080/api/questionnaires/2");
-		temp.ConvertResponse();
+//		RetriveData temp = new RetriveData("http://localhost:8080/api/questionnaires/2");
+//		temp.ConvertResponse();
+
+        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/1");
+        temp.ConvertResponse();
 	}
 	
 	@Bean
