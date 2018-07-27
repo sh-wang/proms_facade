@@ -7,10 +7,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.hl7.fhir.dstu3.model.Questionnaire;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
 
 public class QuestionnaireConversion {
     public  QuestionnaireConversion(){}

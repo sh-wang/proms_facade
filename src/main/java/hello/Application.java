@@ -43,7 +43,7 @@ public class Application {
 //		RetriveData temp = new RetriveData("http://localhost:8080/api/questionnaires/2");
 //		temp.ConvertResponse("Questionnaire");
 
-//        RetriveData temp = new RetriveData("http://localhost:8080/api/followup-actions/1");
+//        RetriveData temp = new RetriveData("http://localhost:8080/api/Questionnaire-response/1");
 //        temp.ConvertResponse("QuestionnaireResponse");
     }
 
