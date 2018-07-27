@@ -58,7 +58,7 @@ public class RetriveData {
                     answer = questionnaireResponseConversion.conversionArray(response.getBody());
                     break;
                 case "Questionnaire-response":
-                    answer = questionnaireResponseConversion.conversionSingle(response.getBody());
+                    answer = questionnaireResponseConversion.conversionArray(response.getBody());
                     break;
                 default:
                     answer = "[]";
