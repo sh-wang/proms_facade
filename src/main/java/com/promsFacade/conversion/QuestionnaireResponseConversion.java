@@ -1,7 +1,11 @@
-package hello;
+package com.promsFacade.conversion;
 
 import ca.uhn.fhir.context.FhirContext;
 import ca.uhn.fhir.parser.IParser;
+import com.promsFacade.conversion.PatientConversion;
+import com.promsFacade.conversion.ProcedureConversion;
+import com.promsFacade.conversion.QuestionnaireConversion;
+import com.promsFacade.util.ActionStatus;
 import org.hl7.fhir.dstu3.model.*;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -10,14 +14,9 @@ import org.springframework.web.client.RestTemplate;
 
 import java.text.ParseException;
 import java.util.Date;
-import java.util.Set;
-import hello.util.ActionStatus;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Iterator;
 
 public class QuestionnaireResponseConversion {
     private PatientConversion patientConversion = new PatientConversion();

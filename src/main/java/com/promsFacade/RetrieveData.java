@@ -1,13 +1,13 @@
-package hello;
+package com.promsFacade;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.promsFacade.conversion.PatientConversion;
+import com.promsFacade.conversion.ProcedureConversion;
+import com.promsFacade.conversion.QuestionnaireConversion;
+import com.promsFacade.conversion.QuestionnaireResponseConversion;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URL;
-
-public class RetriveData {
+public class RetrieveData {
     private String url;
 
     private PatientConversion patientConversion = new PatientConversion();
@@ -15,7 +15,7 @@ public class RetriveData {
     private QuestionnaireConversion questionnaireConversion = new QuestionnaireConversion();
     private QuestionnaireResponseConversion questionnaireResponseConversion = new QuestionnaireResponseConversion();
 
-    public RetriveData(String url){
+    public RetrieveData(String url){
         this.url=url;
     }
 

@@ -15,6 +15,7 @@
 
     <properties>
         <java.version>1.8</java.version>
+        <start-class>com.promsFacade.Application</start-class>
     </properties>
 
     <dependencies>
