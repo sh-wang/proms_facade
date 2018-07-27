@@ -40,8 +40,6 @@ public class Application {
 //		RetrieveData temp = new RetrieveData("http://localhost:8080/api/questionnaires/2");
 //		temp.ConvertResponse("Questionnaire");
 
-//        RetrieveData temp = new RetrieveData("http://localhost:8080/api/followup-actions/1");
-//        temp.ConvertResponse("QuestionnaireResponse");
     }
 
     @Bean

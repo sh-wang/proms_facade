@@ -75,7 +75,7 @@ public class QuestionnaireResponseConversion {
 
         //add patient
         JSONObject jsonPatient = new JSONObject(jsonObject.get("patient").toString());
-        Patient patient = patientConversion.patientConversion(jsonPatient,"Questionnaire response");
+        Patient patient = patientConversion.patientConversion(jsonPatient);
 
         org.hl7.fhir.dstu3.model.Reference refePa = new org.hl7.fhir.dstu3.model.Reference(patient);
         questionnaireResponse.setSubject(refePa);
